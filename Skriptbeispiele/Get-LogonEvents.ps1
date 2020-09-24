@@ -1,4 +1,26 @@
-﻿[cmdletBinding()]
+﻿<#
+.SYNOPSIS 
+   Frägt Anmelde bezogene Events vom System ab
+.DESCRIPTION
+   Lange Beschreibung
+.EXAMPLE
+   .\Get-LogonEvents.ps1 -EventId 4624
+
+   Frägt alle Anmeldeevents vom Standard Log Security ab.
+
+   Ausgabe:
+   Index Time          EntryType   Source                 InstanceID Message
+   ----- ----          ---------   ------                 ---------- -------
+   17449 Sep 24 10:48  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet....
+   17446 Sep 24 10:48  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet....
+   17443 Sep 24 10:48  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet....
+   17440 Sep 24 10:48  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet....
+   17436 Sep 24 10:47  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet....
+
+.EXAMPLE
+   Ein weiteres Beispiel für die Verwendung dieses Cmdlets
+#>
+[cmdletBinding()]
 Param(
 $Logname = "Security",
 $Computername = "localhost",
