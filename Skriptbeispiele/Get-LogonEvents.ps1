@@ -22,11 +22,11 @@
 #>
 [cmdletBinding()]
 Param(
-$Logname = "Security",
-$Computername = "localhost",
+[string]$Logname = "Security",
+[string]$Computername = "localhost",
 [Parameter(Mandatory=$true)]
 [int]$EventId,
-$NewestEvents = 5
+[int]$NewestEvents = 5
 )
 #Ausführliche Ausgabe wenn Skript mit -Verbose aufgerufen wird
 Write-Verbose -Message "Es wurden vom user folgende Werte übergeben: EventId = $EventId"
