@@ -18,10 +18,15 @@
 #>
 [cmdletBinding()]
 param(
+    [ValidateRange(1,999)]
     [int]$DirCount = 5,
+    [ValidateRange(1,999)]
     [int]$FileCount = 9,
     [Parameter(Mandatory=$true)]
+    [ValidateScript({(Test-Path -IsValid -Path $_) -and ($_.Contains("C:\Windows") -eq $false)})]
     [string]$Path,
+    [ValidateSet("None","ipconfig","RandomNumber","RandomProcess")]
+    [string]$Content = "None",
     [switch]$force
 )
 Write-Progress -Activity "Erstelle TestFiles Ordner" -Status "Prüfung auf vorhandene Dateien" -PercentComplete 25
@@ -60,11 +65,19 @@ Write-Progress -Activity "Erstelle TestFiles Ordner" -Status "Ordnererstellung" 
         Write-Progress -Activity "Erstelle TestFiles Ordner" -Id 1 -Status "Dateierstellung für Ordner: $targetdir" -PercentComplete (100/$Ordnerpfade.Count * $targetcounter)
         for($i = 1;$i -le $FileCount;$i++)
         {
+            
+            switch($Content)
+            {
+                "None" {Write-Debug -Message "SwitchCase None";$Value = " "}
+                "ipconfig" {$Value = ipconfig | Out-String}
+                "RandomNumber" {$Value = Get-Random}
+                "RandomProcess" {$Value = Get-Process | Get-Random | Format-List -Property * | Out-String}
+            }
             Write-Progress -Activity "Erstelle TestFiles Ordner" -Status "Erstelle Datei $i von $FileCount" -ParentId 1 -Id 2 -PercentComplete (100/$Filecount * $i)
 
             Write-Verbose -Message "Datei $i in ordner $targetdir wird erstellt"
             $FileNumber = "{0:D3}" -f $i
-            New-Item -Path "$targetdir\File$FileNumber.txt" -ItemType File | Out-Null
+            New-Item -Path "$targetdir\File$FileNumber.txt" -ItemType File -Value $Value | Out-Null
         }
     }
 }
