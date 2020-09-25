@@ -4,7 +4,7 @@ function New-TestFiles
 .SYNOPSIS
     Skript zum erstellen eines TestFiles Verzeichnisses
 .DESCRIPTION
-    Skript zum erstellen eine Verzeichnisses welches eine angegebene Anzahl von Dateien und Ordnern beeinhaltet für TestZwecke
+    Skript zum erstellen eine Verzeichnisses welches eine angegebene Anzahl von Dateien und Ordnern beeinhaltet fï¿½r TestZwecke
 .PARAMETER DirCount
     Der Parameter DirCount gibt an wie viele Unterordner unterhalb des angegebenen Pfades erstellt werden sollen
 .PARAMETER FileCount
@@ -12,7 +12,7 @@ function New-TestFiles
 .PARAMETER Path
     Gibt an unter welchem Pfad die Dateien und Ordner erstellt werden sollen. 
 .PARAMETER force
-    Wird der Force Parameter angegeben wird ein vorhandenes Verzeichniss komplett gelöscht um es anschließend neu zu erstelltn.
+    Wird der Force Parameter angegeben wird ein vorhandenes Verzeichniss komplett gelï¿½scht um es anschlieï¿½end neu zu erstelltn.
 .EXAMPLE
     .\New-TestFilesdir.ps1 -Path C:\TestFiles
 
@@ -31,15 +31,15 @@ param(
     [string]$Content = "None",
     [switch]$force
 )
-Write-Progress -Activity "Erstelle TestFiles Ordner" -Status "Prüfung auf vorhandene Dateien" -PercentComplete 25
+Write-Progress -Activity "Erstelle TestFiles Ordner" -Status "Prï¿½fung auf vorhandene Dateien" -PercentComplete 25
 if((Test-Path -Path $Path) -and $force)
 {
-    Write-Verbose -Message "vorhandene Ordner und Dateien werden gelöscht"
+    Write-Verbose -Message "vorhandene Ordner und Dateien werden gelï¿½scht"
     Remove-Item -Path $Path -Recurse -Force | Out-Null
 }
 if((Test-Path -Path $Path) -and $force -eq $false)
 {
-    Write-Host -ForegroundColor Red "Ordner bereits vorhanden, löschen sie das Verzeichnis manuell oder rufen Sie das Skript erneut mit dem Parameter -force aus zum automatischen vorherigen löschen des Verzeichnisses inklusive aller Dateien und Unterordner"
+    Write-Host -ForegroundColor Red "Ordner bereits vorhanden, lï¿½schen sie das Verzeichnis manuell oder rufen Sie das Skript erneut mit dem Parameter -force aus zum automatischen vorherigen lï¿½schen des Verzeichnisses inklusive aller Dateien und Unterordner"
 }
 else
 {
@@ -64,7 +64,7 @@ Write-Progress -Activity "Erstelle TestFiles Ordner" -Status "Ordnererstellung" 
     foreach($targetdir in $Ordnerpfade)
     {
         $targetcounter ++
-        Write-Progress -Activity "Erstelle TestFiles Ordner" -Id 1 -Status "Dateierstellung für Ordner: $targetdir" -PercentComplete (100/$Ordnerpfade.Count * $targetcounter)
+        Write-Progress -Activity "Erstelle TestFiles Ordner" -Id 1 -Status "Dateierstellung fï¿½r Ordner: $targetdir" -PercentComplete (100/$Ordnerpfade.Count * $targetcounter)
         for($i = 1;$i -le $FileCount;$i++)
         {
             
@@ -89,13 +89,13 @@ function Get-LogonEvents
 {
 <#
 .SYNOPSIS 
-   Frägt Anmelde bezogene Events vom System ab
+   Frï¿½gt Anmelde bezogene Events vom System ab
 .DESCRIPTION
    Lange Beschreibung
 .EXAMPLE
    .\Get-LogonEvents.ps1 -EventId 4624
 
-   Frägt alle Anmeldeevents vom Standard Log Security ab.
+   Frï¿½gt alle Anmeldeevents vom Standard Log Security ab.
 
    Ausgabe:
    Index Time          EntryType   Source                 InstanceID Message
@@ -107,7 +107,7 @@ function Get-LogonEvents
    17436 Sep 24 10:47  SuccessA... Microsoft-Windows...         4624 Ein Konto wurde erfolgreich angemeldet....
 
 .EXAMPLE
-   Ein weiteres Beispiel für die Verwendung dieses Cmdlets
+   Ein weiteres Beispiel fï¿½r die Verwendung dieses Cmdlets
 #>
 [cmdletBinding()]
 Param(
@@ -117,8 +117,8 @@ Param(
 [int]$EventId,
 [int]$NewestEvents = 5
 )
-#Ausführliche Ausgabe wenn Skript mit -Verbose aufgerufen wird
-Write-Verbose -Message "Es wurden vom user folgende Werte übergeben: EventId = $EventId"
+#Ausfï¿½hrliche Ausgabe wenn Skript mit -Verbose aufgerufen wird
+Write-Verbose -Message "Es wurden vom user folgende Werte ï¿½bergeben: EventId = $EventId"
 
 #Debug "Haltepunkt" Wenn Skrupt mit -Debug aufgerufen wird
 Write-Debug -Message "Vor Eventlogabfrage"
@@ -141,4 +141,18 @@ function Test-Validates
     [ValidateSet("Wert1","Wert2")]
     [string]$Set
     )
+}
+
+function Out-Voice
+{
+    [cmdletBinding()]
+    param(
+        [Parameter(Mandatory=$true)]
+        [ValidateLength(1,255)]
+        [string]$InputText
+    )
+
+    Add-Type -AssemblyName System.Speech
+    $speaker = New-Object System.Speech.Synthesis.SpeechSynthesizer
+    $speaker.Speak($InputText)
 }
